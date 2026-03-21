@@ -2,8 +2,10 @@ package io.github.aldengregory.greenspaces.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class GreenSpaceInformation {
     @Id
     private Long id;

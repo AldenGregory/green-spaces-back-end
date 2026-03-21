@@ -22,6 +22,7 @@ public class GreenSpaceInformationController {
      */
     @GetMapping("/greenspaces")
     public List<GreenSpaceInformation> getAll() {
+        System.out.println("Here is found: " + greenspaceRepo.findAll());
         return greenspaceRepo.findAll();
     }
     
