@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 public class GreenSpaceInformationController {
-    @Autowired
     GreenSpaceInformationRepository greenspaceRepo;
 
     public GreenSpaceInformationController(GreenSpaceInformationRepository greenspaceRepo) {
