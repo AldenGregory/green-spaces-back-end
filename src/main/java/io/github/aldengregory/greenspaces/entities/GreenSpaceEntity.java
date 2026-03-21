@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class GreenSpaceInformation {
+public class GreenSpaceEntity {
     @Id
     private Long id;
     private String parkName;

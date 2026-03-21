@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
-import io.github.aldengregory.greenspaces.entities.GreenSpaceInformation;
+import io.github.aldengregory.greenspaces.entities.GreenSpaceEntity;
 import io.github.aldengregory.greenspaces.repositories.GreenSpaceInformationRepository;
 
 @Service
@@ -18,12 +18,12 @@ public class GreenSpaceService {
     }
 
     public List<GreenSpaceDTO> getGreenSpaces() {
-        List<GreenSpaceInformation> greenSpaceEntities = greenSpaceRepo.findAll();
+        List<GreenSpaceEntity> greenSpaceEntities = greenSpaceRepo.findAll();
 
         List<GreenSpaceDTO> greenSpaces = new ArrayList<>();
 
         // Convert greenSpaceEntities to greenSpaceDTOs.
-        for (GreenSpaceInformation currentInformation : greenSpaceEntities) {
+        for (GreenSpaceEntity currentInformation : greenSpaceEntities) {
             greenSpaces.add(
                 new GreenSpaceDTO(
                     currentInformation.getParkName(),
