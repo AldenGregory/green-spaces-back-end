@@ -15,6 +15,10 @@ public class GreenSpaceInformationController {
     @Autowired
     GreenSpaceInformationRepository greenspaceRepo;
 
+    public GreenSpaceInformationController(GreenSpaceInformationRepository greenspaceRepo) {
+        this.greenspaceRepo = greenspaceRepo;
+    }
+
     /**
      * Gets all information on all green spaces in the database.
      * 
