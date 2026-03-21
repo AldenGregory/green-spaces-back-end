@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
 import io.github.aldengregory.greenspaces.entities.GreenSpaceEntity;
-import io.github.aldengregory.greenspaces.repositories.GreenSpaceInformationRepository;
+import io.github.aldengregory.greenspaces.repositories.GreenSpaceRepository;
 
 @Service
 public class GreenSpaceService {
-    private GreenSpaceInformationRepository greenSpaceRepo;
+    private GreenSpaceRepository greenSpaceRepo;
 
-    public GreenSpaceService(GreenSpaceInformationRepository greenSpaceRepo) {
+    public GreenSpaceService(GreenSpaceRepository greenSpaceRepo) {
         this.greenSpaceRepo = greenSpaceRepo;
     }
 
