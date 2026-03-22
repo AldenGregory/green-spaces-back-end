@@ -9,13 +9,24 @@ import io.github.aldengregory.greenspaces.services.GreenSpaceService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-
+/**
+ * GreenSpaceController handles REST endpoints related to green space access.
+ * 
+ * This class serves as the layer between the front end and any information
+ * on green spaces in the database.
+ */
 @RestController
 public class GreenSpaceController {
-    GreenSpaceService greenspaceService;
+    GreenSpaceService greenSpaceService;
 
-    public GreenSpaceController(GreenSpaceService greenspaceService) {
-        this.greenspaceService = greenspaceService;
+    /**
+     * Creates a GreenSpaceController that uses a specific GreenSpaceService to
+     * handle requests.
+     * 
+     * @param greenspaceService The service a GreenSpaceController will use.
+     */
+    public GreenSpaceController(GreenSpaceService greenSpaceService) {
+        this.greenSpaceService = greenSpaceService;
     }
 
     /**
@@ -23,9 +34,9 @@ public class GreenSpaceController {
      * 
      * @return A list of every green space information entry in the database.
      */
-    @GetMapping("/greenspaces")
+    @GetMapping("/green-spaces")
     public List<GreenSpaceDTO> getAll() {
-        return greenspaceService.getGreenSpaces();
+        return greenSpaceService.getGreenSpaces();
     }
     
 }

@@ -9,14 +9,33 @@ import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
 import io.github.aldengregory.greenspaces.entities.GreenSpaceEntity;
 import io.github.aldengregory.greenspaces.repositories.GreenSpaceRepository;
 
+/**
+ * GreenSpaceService handles business logic associated with green spaces.
+ * 
+ * This class accesses the database using a GreenSpaceRepository. The
+ * GreenSpaceController class uses this class to handle its logic.
+ */
 @Service
 public class GreenSpaceService {
     private GreenSpaceRepository greenSpaceRepo;
 
+    /**
+     * Creates a GreenSpaceService that can access database information with a
+     * GreenSpaceRepository.
+     * 
+     * @param greenSpaceRepo The repository that this service uses to access
+     *                       the GreenSpaces database.
+     */
     public GreenSpaceService(GreenSpaceRepository greenSpaceRepo) {
         this.greenSpaceRepo = greenSpaceRepo;
     }
 
+    /**
+     * Retrieves all green spaces from the database and converts them to
+     * GreenspaceDTOs.
+     * 
+     * @return A list of GreenSpaceDTOs for all green spaces in the database.
+     */
     public List<GreenSpaceDTO> getGreenSpaces() {
         List<GreenSpaceEntity> greenSpaceEntities = greenSpaceRepo.findAll();
 
@@ -25,12 +44,7 @@ public class GreenSpaceService {
         // Convert greenSpaceEntities to greenSpaceDTOs.
         for (GreenSpaceEntity currentInformation : greenSpaceEntities) {
             greenSpaces.add(
-                new GreenSpaceDTO(
-                    currentInformation.getParkName(),
-                    currentInformation.getLongitude(),
-                    currentInformation.getLatitude(),
-                    currentInformation.getDescription()
-                )
+                GreenSpaceDTO.fromGreenSpaceEntity(currentInformation)
             );
         }
 
