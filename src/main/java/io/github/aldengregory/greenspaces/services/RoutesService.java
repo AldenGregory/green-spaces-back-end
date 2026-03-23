@@ -8,7 +8,8 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.github.aldengregory.greenspaces.dtos.PathDTO;
-import tools.jackson.databind.JsonNode;
+import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO;
+import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
 
 /**
  * RoutesService handles logic and makes requests associated with routes.
@@ -38,14 +39,14 @@ public class RoutesService {
      * @param path A PathDTO specifying source and destination coordinates.
      * @return A JsonNode with Geoapify's response to the route request.
      */
-    public JsonNode requestRoute(PathDTO path) {
+    public RouteResultDTO requestRoute(PathDTO path) {
         // Create string specifying standard and ending coordinates.
         String waypoints = String.format(
             "%.8f,%.8f|%.8f,%.8f",
-            path.getSourceLatitude(),
-            path.getSourceLongitude(),
-            path.getDestinationLatitude(),
-            path.getDestinationLongitude()
+            path.sourceLatitude(),
+            path.sourceLongitude(),
+            path.destinationLatitude(),
+            path.destinationLongitude()
         );
 
         // Build request URI.
@@ -60,11 +61,11 @@ public class RoutesService {
         System.out.println(requestURI);
 
         // Send request.
-        JsonNode response = restClient.get()
+        RouteResponseDTO response = restClient.get()
             .uri(requestURI)
             .retrieve()
-            .body(JsonNode.class);
+            .body(RouteResponseDTO.class);
 
-        return response;
+        return RouteResultDTO.fromRouteResponseDTO(response);
     } 
 }

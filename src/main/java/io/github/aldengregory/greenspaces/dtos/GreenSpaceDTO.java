@@ -1,8 +1,6 @@
 package io.github.aldengregory.greenspaces.dtos;
 
 import io.github.aldengregory.greenspaces.entities.GreenSpaceEntity;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * GreenSpaceDTO models important green space information for the front end.
@@ -10,14 +8,13 @@ import lombok.RequiredArgsConstructor;
  * Data for this class can be filled in from a GreenSpaceEntity. This is
  * effectively a simplified GreenSpaceEntity tailored to front-end needs.
  */
-@RequiredArgsConstructor
-@Getter
-public class GreenSpaceDTO {
-    private final String parkName;
-    private final double latitude;
-    private final double longitude;
-    private final String description;
-
+public record GreenSpaceDTO(
+    long id,
+    String parkName,
+    double latitude,
+    double longitude,
+    String description
+) {
     /**
      * Builds a GreenSpaceDTO from a GreenSpaceEntity.
      * 
@@ -27,6 +24,7 @@ public class GreenSpaceDTO {
      */
     public static GreenSpaceDTO fromGreenSpaceEntity(GreenSpaceEntity entity) {
         return new GreenSpaceDTO(
+            entity.getId(),
             entity.getParkName(), 
             entity.getLatitude(),
             entity.getLongitude(),
