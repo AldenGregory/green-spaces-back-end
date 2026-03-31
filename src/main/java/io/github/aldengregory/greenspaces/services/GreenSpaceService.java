@@ -17,7 +17,7 @@ import io.github.aldengregory.greenspaces.repositories.GreenSpaceRepository;
  */
 @Service
 public class GreenSpaceService {
-    private GreenSpaceRepository greenSpaceRepo;
+    private final GreenSpaceRepository greenSpaceRepo;
 
     /**
      * Creates a GreenSpaceService that can access database information with a

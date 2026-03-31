@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @RestController
 public class GreenSpaceController {
-    GreenSpaceService greenSpaceService;
+    private final GreenSpaceService greenSpaceService;
 
     /**
      * Creates a GreenSpaceController that uses a specific GreenSpaceService to

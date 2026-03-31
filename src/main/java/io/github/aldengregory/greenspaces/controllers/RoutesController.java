@@ -18,7 +18,7 @@ import io.github.aldengregory.greenspaces.services.RoutesService;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class RoutesController {
-    private RoutesService routesService;
+    private final RoutesService routesService;
     
     /**
      * Creates a RoutesController that uses a RoutesService to process

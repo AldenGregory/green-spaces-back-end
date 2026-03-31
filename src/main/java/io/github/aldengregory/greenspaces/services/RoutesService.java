@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.github.aldengregory.greenspaces.components.RouteConverter;
 import io.github.aldengregory.greenspaces.dtos.PathDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
@@ -21,12 +22,14 @@ import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
 public class RoutesService {
     @Value("${API_KEY}")
     private String apiKey;
-    private RestClient restClient;
+    private final RouteConverter responseConverter;
+    private final RestClient restClient;
 
     /**
      * Creates a RoutesService instance and its associated RestClient.
      */
-    public RoutesService() {
+    public RoutesService(RouteConverter responseConverter) {
+        this.responseConverter = responseConverter;
         restClient = RestClient.builder().build();
     }
 
@@ -67,6 +70,6 @@ public class RoutesService {
             .retrieve()
             .body(RouteResponseDTO.class);
 
-        return RouteResultDTO.fromRouteResponseDTO(response);
+        return responseConverter.fromRouteResponseDTO(response);
     } 
 }
