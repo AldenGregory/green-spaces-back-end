@@ -2,8 +2,10 @@ package io.github.aldengregory.greenspaces.dtos;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+
 /**
- * RouteResponnseDTO represents route information received from Geoapify.
+ * RouteResponseDTO represents route information received from Geoapify.
  */
 public record RouteResponseDTO (
      List<FeatureDTO> features
@@ -11,7 +13,7 @@ public record RouteResponseDTO (
 
     public record FeatureDTO (
         PropertiesDTO properties,
-        GeometryDTO geometry
+        GeometryResponseDTO geometry
     ) {}
 
     public record PropertiesDTO(
@@ -22,7 +24,12 @@ public record RouteResponseDTO (
 
     public record LegDTO(List<StepDTO> steps) {}
 
-    public record StepDTO(InstructionDTO instruction) {}
 
-    public record InstructionDTO(String text) {}
+    public record StepDTO(
+        @JsonAlias("from_index") int fromIndex, 
+        @JsonAlias("to_index")int toIndex, 
+        InstructionDTO instruction
+    ) {}
+
+    public record InstructionDTO(String text, String type) {}
 }

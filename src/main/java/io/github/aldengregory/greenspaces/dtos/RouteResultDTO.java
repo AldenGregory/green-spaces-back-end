@@ -15,7 +15,7 @@ public record RouteResultDTO (
     double distance,
     int time,
     List<String> instructions,
-    GeometryDTO geometry
+    GeometryResultDTO geometry
 ) {
     public static RouteResultDTO fromRouteResponseDTO(RouteResponseDTO response) {
         // A simple route only has one feature for the single route requested.
@@ -36,7 +36,7 @@ public record RouteResultDTO (
             routeProperties.distance(),
             routeProperties.time(),
             instructions,
-            routeFeature.geometry()
+            GeometryResultDTO.fromRouteResponseDTO(response)
         );
     }
 }

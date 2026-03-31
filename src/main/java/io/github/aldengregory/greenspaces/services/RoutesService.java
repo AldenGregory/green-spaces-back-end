@@ -54,6 +54,7 @@ public class RoutesService {
             .queryParam("waypoints", waypoints)
             .queryParam("mode", "transit")
             .queryParam("units", "imperial")
+            .queryParam("details", "instruction_details")
             .queryParam("apiKey", apiKey)
             .build()
             .toUri();
