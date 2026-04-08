@@ -1,7 +1,5 @@
 package io.github.aldengregory.greenspaces.components;
 
-import io.github.aldengregory.greenspaces.Application;
-import io.github.aldengregory.greenspaces.controllers.GreenSpaceController;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
