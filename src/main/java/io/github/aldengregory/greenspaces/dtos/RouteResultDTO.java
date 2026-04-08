@@ -8,6 +8,14 @@ import java.util.List;
 public record RouteResultDTO (
     double distance,
     int time,
-    List<String> instructions,
+    List<StepInfoDTO> steps,
     GeometryResultDTO geometry
-) {}
+) {
+    public record StepInfoDTO(
+        String startTime,
+        String endTime,
+        String instruction,
+        double startLatitude,
+        double startLongitude
+    ) {}
+}

@@ -1,5 +1,9 @@
 package io.github.aldengregory.greenspaces.components;
 
+import io.github.aldengregory.greenspaces.Application;
+import io.github.aldengregory.greenspaces.controllers.GreenSpaceController;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +15,12 @@ import io.github.aldengregory.greenspaces.dtos.GeometryResultDTO.GeoFeatureDTO;
 import io.github.aldengregory.greenspaces.dtos.GeometryResultDTO.GeoPropertiesDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.FeatureDTO;
+import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.InstructionDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.LegDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.PropertiesDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.StepDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
+import io.github.aldengregory.greenspaces.dtos.RouteResultDTO.StepInfoDTO;
 
 @Component
 public class RouteConverter {
@@ -39,12 +45,11 @@ public class RouteConverter {
         // A simple route between two points only has one leg.
         LegDTO routeLeg = routeProperties.legs().get(0);
 
-        List<String> instructions = new ArrayList<String>();
-
-        // Add all instruction text from StepDTOs.
-        for (StepDTO step : routeLeg.steps()) {
-            instructions.add(step.instruction().text());
-        }
+        List<StepInfoDTO> instructions = instructionsFromSteps(
+            routeLeg.steps(),
+            // Simple routes only use one list of coordinates.
+            routeFeature.geometry().coordinates().get(0)
+        );
 
         return new RouteResultDTO(
             routeProperties.distance(),
@@ -52,6 +57,65 @@ public class RouteConverter {
             instructions,
             separateGeoJsonSteps(response)
         );
+    }
+
+    private List<StepInfoDTO> instructionsFromSteps(List<StepDTO> steps, List<List<Double>> routeCoordinates) {
+        List<StepInfoDTO> instructions = new ArrayList<>();
+
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm a");
+
+        // Build InstructionDTO for each step.
+        for (StepDTO step : steps) {
+            String startTime = timeFormat.format(currentTime);
+            
+            // Add step time to stepStartTime. 
+            currentTime = currentTime.plusSeconds(step.time());
+            String endTime = timeFormat.format(currentTime);
+
+            List<Double> instructionStartPosition = routeCoordinates.get(step.fromIndex());
+
+            instructions.add(
+                new StepInfoDTO(
+                    startTime,
+                    endTime,
+                    getStepInstruction(step),
+                    // Switch from longitude then latitude to latitude then longitude.
+                    instructionStartPosition.get(1),
+                    instructionStartPosition.get(0)
+                )
+            );
+        }
+
+        return instructions;
+    }
+
+    private String getStepInstruction(StepDTO step) {
+        InstructionDTO resultInstruction = step.instruction();
+
+        String transitionInstruction = resultInstruction.transitionInstruction();
+        String preTransitionInstruction = resultInstruction.preTransitionInstruction();
+        String postTransitionInstruction = resultInstruction.postTransitionInstruction();
+
+        String instruction = "";
+
+        // transitionInstruction usually works better than preTransitionInstruction.
+        if (transitionInstruction != null) {
+             instruction += transitionInstruction;
+        } else if (preTransitionInstruction != null) {
+            instruction += preTransitionInstruction;
+        } 
+        
+        if (postTransitionInstruction != null) {
+            // Add space if first part of instruction was added.
+            if (instruction.length() > 0) {
+                instruction += " ";
+            }
+
+            instruction += postTransitionInstruction;
+        }
+
+        return instruction;
     }
 
     /**

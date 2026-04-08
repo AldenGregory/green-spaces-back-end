@@ -28,8 +28,15 @@ public record RouteResponseDTO (
     public record StepDTO(
         @JsonAlias("from_index") int fromIndex, 
         @JsonAlias("to_index")int toIndex, 
+        // This time will be in seconds.
+        int time,
         InstructionDTO instruction
     ) {}
 
-    public record InstructionDTO(String text, String type) {}
+    public record InstructionDTO(
+        String type,
+        @JsonAlias("transition_instruction") String transitionInstruction,
+        @JsonAlias("pre_transition_instruction") String preTransitionInstruction,
+        @JsonAlias("post_transition_instruction") String postTransitionInstruction
+    ) {}
 }

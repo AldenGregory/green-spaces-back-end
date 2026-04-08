@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
 import io.github.aldengregory.greenspaces.services.GreenSpaceService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * on green spaces in the database.
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class GreenSpaceController {
     private final GreenSpaceService greenSpaceService;
 

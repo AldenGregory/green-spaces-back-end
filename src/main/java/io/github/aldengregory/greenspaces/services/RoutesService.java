@@ -62,8 +62,6 @@ public class RoutesService {
             .build()
             .toUri();
 
-        System.out.println(requestURI);
-
         // Send request.
         RouteResponseDTO response = restClient.get()
             .uri(requestURI)
