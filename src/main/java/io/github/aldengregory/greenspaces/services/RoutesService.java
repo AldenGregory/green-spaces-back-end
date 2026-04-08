@@ -8,7 +8,7 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.github.aldengregory.greenspaces.components.RouteConverter;
-import io.github.aldengregory.greenspaces.dtos.PathDTO;
+import io.github.aldengregory.greenspaces.dtos.PathRequestDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
 
@@ -39,25 +39,35 @@ public class RoutesService {
      * The route this method finds uses public transportation. Results use
      * imperial units. This request is made to Geoapify.
      * 
-     * @param path A PathDTO specifying source and destination coordinates.
+     * @param pathRequest A PathRequestDTO specifying source and destination
+     *                    coordinates.
      * @return A JsonNode with Geoapify's response to the route request.
      */
-    public RouteResultDTO requestRoute(PathDTO path) {
+    public RouteResultDTO requestRoute(PathRequestDTO pathRequest) {
         // Create string specifying standard and ending coordinates.
         String waypoints = String.format(
             "%.8f,%.8f|%.8f,%.8f",
-            path.sourceLatitude(),
-            path.sourceLongitude(),
-            path.destinationLatitude(),
-            path.destinationLongitude()
+            pathRequest.sourceLatitude(),
+            pathRequest.sourceLongitude(),
+            pathRequest.destinationLatitude(),
+            pathRequest.destinationLongitude()
         );
+
+        String language = pathRequest.language();
+        String units = "imperial";
+
+        // Geoapify only provides imperial units in English.
+        if (!"en".equals(language)) {
+            units = "metric";
+        }
 
         // Build request URI.
         URI requestURI = UriComponentsBuilder.fromUriString("https://api.geoapify.com/v1/routing")
             .queryParam("waypoints", waypoints)
             .queryParam("mode", "transit")
-            .queryParam("units", "imperial")
+            .queryParam("units", units)
             .queryParam("details", "instruction_details")
+            .queryParam("lang", language)
             .queryParam("apiKey", apiKey)
             .build()
             .toUri();
