@@ -1,6 +1,5 @@
 package io.github.aldengregory.greenspaces.controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +15,6 @@ import io.github.aldengregory.greenspaces.services.RoutesService;
  * uses Geoapify.
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class RoutesController {
     private final RoutesService routesService;
     

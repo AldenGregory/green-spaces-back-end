@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>io.github.aldengregory</groupId>
 	<artifactId>greenspaces</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
 	<url/>
@@ -58,15 +57,31 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>compile</scope>
+			<version>1.18.44</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>greenspaces</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.44</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

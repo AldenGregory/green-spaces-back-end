@@ -1,6 +1,5 @@
 package io.github.aldengregory.greenspaces.controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.aldengregory.greenspaces.dtos.WeatherResultDTO;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class WeatherController {
     private final WeatherService weatherService;
 

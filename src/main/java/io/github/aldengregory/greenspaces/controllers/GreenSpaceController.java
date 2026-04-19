@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
  * on green spaces in the database.
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class GreenSpaceController {
     private final GreenSpaceService greenSpaceService;
 

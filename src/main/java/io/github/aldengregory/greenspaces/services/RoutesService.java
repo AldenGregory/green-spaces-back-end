@@ -20,7 +20,7 @@ import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
  */
 @Service
 public class RoutesService {
-    @Value("${API_KEY}")
+    @Value("${app.geoapify_api_key}")
     private String apiKey;
     private final RouteConverter responseConverter;
     private final RestClient restClient;
