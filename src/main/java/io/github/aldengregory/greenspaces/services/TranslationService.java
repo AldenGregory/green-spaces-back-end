@@ -1,6 +1,5 @@
 package io.github.aldengregory.greenspaces.services;
 
-import io.github.aldengregory.greenspaces.Application;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;

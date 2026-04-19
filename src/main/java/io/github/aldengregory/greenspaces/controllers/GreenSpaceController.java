@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
 import io.github.aldengregory.greenspaces.services.GreenSpaceService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
