@@ -12,8 +12,7 @@ public record RouteResultDTO (
     GeometryResultDTO geometry
 ) {
     public record StepInfoDTO(
-        String startTime,
-        String endTime,
+        int minutes,
         String instruction,
         double startLatitude,
         double startLongitude

@@ -1,6 +1,7 @@
 package io.github.aldengregory.greenspaces.services;
 
 import java.net.URI;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class RoutesService {
     private String apiKey;
     private final RouteConverter responseConverter;
     private final RestClient restClient;
+    private static final Set<String> supportedGeoapifyLangauges = Set.of("en", "es", "fr");
 
     /**
      * Creates a RoutesService instance and its associated RestClient.
@@ -54,6 +56,12 @@ public class RoutesService {
         );
 
         String language = pathRequest.language();
+
+        // Use English for unsupported language requests.
+        if (!supportedGeoapifyLangauges.contains(language)) {
+            language = "en";
+        }
+
         String units = "imperial";
 
         // Geoapify only provides imperial units in English.

@@ -1,7 +1,7 @@
 package io.github.aldengregory.greenspaces.components;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +19,16 @@ import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.PropertiesDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.StepDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO.StepInfoDTO;
+import io.github.aldengregory.greenspaces.services.TranslationService;
 
 @Component
 public class RouteConverter {
+    private final TranslationService translationService;
+
+    public RouteConverter(TranslationService translateService) {
+        this.translationService = translateService;
+    }
+
     /**
      * Restructures the a RouteResponseDTO into a RouteResultDTO.
      * 
@@ -60,23 +67,16 @@ public class RouteConverter {
     private List<StepInfoDTO> instructionsFromSteps(List<StepDTO> steps, List<List<Double>> routeCoordinates) {
         List<StepInfoDTO> instructions = new ArrayList<>();
 
-        LocalTime currentTime = LocalTime.now();
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("hh:mm a");
-
         // Build InstructionDTO for each step.
         for (StepDTO step : steps) {
-            String startTime = timeFormat.format(currentTime);
-            
             // Add step time to stepStartTime. 
-            currentTime = currentTime.plusSeconds(step.time());
-            String endTime = timeFormat.format(currentTime);
+            int minutes = (int) Math.ceil(step.time() / 60);
 
             List<Double> instructionStartPosition = routeCoordinates.get(step.fromIndex());
 
             instructions.add(
                 new StepInfoDTO(
-                    startTime,
-                    endTime,
+                    minutes,
                     getStepInstruction(step),
                     // Switch from longitude then latitude to latitude then longitude.
                     instructionStartPosition.get(1),
