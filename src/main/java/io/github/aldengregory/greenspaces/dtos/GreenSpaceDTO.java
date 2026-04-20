@@ -1,7 +1,5 @@
 package io.github.aldengregory.greenspaces.dtos;
 
-import io.github.aldengregory.greenspaces.entities.GreenSpaceEntity;
-
 /**
  * GreenSpaceDTO models important green space information for the front end.
  * 
