@@ -14,21 +14,4 @@ public record GreenSpaceDTO(
     double latitude,
     double longitude,
     String description
-) {
-    /**
-     * Builds a GreenSpaceDTO from a GreenSpaceEntity.
-     * 
-     * @param entity The GreenSpaceEntity from which the data to build a
-     *               GreenSpaceDTO will be sourced from.
-     * @return A GreenSpaceDTO with data corresponding to the entity parameter.
-     */
-    public static GreenSpaceDTO fromGreenSpaceEntity(GreenSpaceEntity entity) {
-        return new GreenSpaceDTO(
-            entity.getId(),
-            entity.getParkName(), 
-            entity.getLatitude(),
-            entity.getLongitude(),
-            entity.getDescription()
-        );
-    }
-}
+) { }

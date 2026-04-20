@@ -18,7 +18,7 @@ import com.google.cloud.translate.Translate.TranslateOption;
 
 @Service
 public class TranslationService {
-    private Translate translator;
+    private final Translate translator;
 
     public TranslationService(
         @Value("${app.translate_service_credentials}") String credentialsBase64

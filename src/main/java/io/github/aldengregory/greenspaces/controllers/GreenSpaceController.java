@@ -8,6 +8,7 @@ import io.github.aldengregory.greenspaces.dtos.GreenSpaceDTO;
 import io.github.aldengregory.greenspaces.services.GreenSpaceService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * GreenSpaceController handles REST endpoints related to green space access.
@@ -37,6 +38,11 @@ public class GreenSpaceController {
     @GetMapping("/green-spaces")
     public List<GreenSpaceDTO> getAll() {
         return greenSpaceService.getGreenSpaces();
+    }
+    
+    @GetMapping("/translate-description")
+    public String getMethodName(@RequestParam String language, @RequestParam String description) {
+        return greenSpaceService.translateDescription(language, description);
     }
     
 }

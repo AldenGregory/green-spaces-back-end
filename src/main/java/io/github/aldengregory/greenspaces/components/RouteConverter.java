@@ -17,6 +17,7 @@ import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.PropertiesDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResponseDTO.StepDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO;
 import io.github.aldengregory.greenspaces.dtos.RouteResultDTO.StepInfoDTO;
+import io.github.aldengregory.greenspaces.services.RoutesService;
 import io.github.aldengregory.greenspaces.services.TranslationService;
 
 @Component
@@ -40,7 +41,7 @@ public class RouteConverter {
      * @return A RouteResultDTO build from the information provided by a
      *         RouteResponseDTO.
      */
-     public RouteResultDTO fromRouteResponseDTO(RouteResponseDTO response) {
+     public RouteResultDTO fromRouteResponseDTO(RouteResponseDTO response, String language) {
         // A simple route only has one feature for the single route requested.
         FeatureDTO routeFeature = response.features().get(0);
         PropertiesDTO routeProperties = routeFeature.properties();
@@ -51,7 +52,8 @@ public class RouteConverter {
         List<StepInfoDTO> instructions = instructionsFromSteps(
             routeLeg.steps(),
             // Simple routes only use one list of coordinates.
-            routeFeature.geometry().coordinates().get(0)
+            routeFeature.geometry().coordinates().get(0),
+            language
         );
 
         return new RouteResultDTO(
@@ -62,11 +64,14 @@ public class RouteConverter {
         );
     }
 
-    private List<StepInfoDTO> instructionsFromSteps(List<StepDTO> steps, List<List<Double>> routeCoordinates) {
+    private List<StepInfoDTO> instructionsFromSteps(List<StepDTO> steps, List<List<Double>> routeCoordinates, String language) {
         List<StepInfoDTO> instructions = new ArrayList<>();
+        List<String> instructionTexts = getInstructions(steps, language);
 
         // Build InstructionDTO for each step.
-        for (StepDTO step : steps) {
+        for (int i = 0; i < steps.size(); i++) {
+            StepDTO step = steps.get(i);
+
             // Add step time to stepStartTime. 
             int minutes = (int) Math.ceil(step.time() / 60);
 
@@ -75,7 +80,7 @@ public class RouteConverter {
             instructions.add(
                 new StepInfoDTO(
                     minutes,
-                    getStepInstruction(step),
+                    instructionTexts.get(i),
                     // Switch from longitude then latitude to latitude then longitude.
                     instructionStartPosition.get(1),
                     instructionStartPosition.get(0)
@@ -83,6 +88,20 @@ public class RouteConverter {
             );
         }
 
+        return instructions;
+    }
+
+    private List<String> getInstructions(List<StepDTO> steps, String language) {
+        List<String> instructions = new ArrayList<>();
+
+        for (StepDTO step : steps) {
+            instructions.add(getStepInstruction(step));
+        }
+
+        // If languge is not supported, assume it needs to be translated from English.
+        if (!RoutesService.supportedGeoapifyLangauges.contains(language)) {
+            return translationService.translateStrings(instructions, language);
+        }
         return instructions;
     }
 

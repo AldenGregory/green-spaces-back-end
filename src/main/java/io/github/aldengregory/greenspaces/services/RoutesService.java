@@ -25,7 +25,7 @@ public class RoutesService {
     private String apiKey;
     private final RouteConverter responseConverter;
     private final RestClient restClient;
-    private static final Set<String> supportedGeoapifyLangauges = Set.of("en", "es", "fr");
+    public static final Set<String> supportedGeoapifyLangauges = Set.of("en", "es", "fr");
 
     /**
      * Creates a RoutesService instance and its associated RestClient.
@@ -55,17 +55,18 @@ public class RoutesService {
             pathRequest.destinationLongitude()
         );
 
-        String language = pathRequest.language();
+        String neededLanguage = pathRequest.language();
+        String geoapifyRequestLanguage = neededLanguage;
 
         // Use English for unsupported language requests.
-        if (!supportedGeoapifyLangauges.contains(language)) {
-            language = "en";
+        if (!supportedGeoapifyLangauges.contains(geoapifyRequestLanguage)) {
+            geoapifyRequestLanguage = "en";
         }
 
         String units = "imperial";
 
         // Geoapify only provides imperial units in English.
-        if (!"en".equals(language)) {
+        if (!"en".equals(neededLanguage)) {
             units = "metric";
         }
 
@@ -75,7 +76,7 @@ public class RoutesService {
             .queryParam("mode", "transit")
             .queryParam("units", units)
             .queryParam("details", "instruction_details")
-            .queryParam("lang", language)
+            .queryParam("lang", geoapifyRequestLanguage)
             .queryParam("apiKey", apiKey)
             .build()
             .toUri();
@@ -86,6 +87,6 @@ public class RoutesService {
             .retrieve()
             .body(RouteResponseDTO.class);
 
-        return responseConverter.fromRouteResponseDTO(response);
+        return responseConverter.fromRouteResponseDTO(response, neededLanguage);
     } 
 }
