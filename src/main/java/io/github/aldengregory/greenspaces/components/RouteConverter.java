@@ -56,9 +56,12 @@ public class RouteConverter {
             language
         );
 
+        // Convert time to minutes.
+        int timeMinutes = (int) Math.ceil((double) routeProperties.time() / 60);
+
         return new RouteResultDTO(
             routeProperties.distance(),
-            routeProperties.time(),
+            timeMinutes,
             instructions,
             separateGeoJsonSteps(response)
         );
@@ -73,7 +76,7 @@ public class RouteConverter {
             StepDTO step = steps.get(i);
 
             // Add step time to stepStartTime. 
-            int minutes = (int) Math.ceil(step.time() / 60);
+            int minutes = (int) Math.ceil((double) step.time() / 60);
 
             List<Double> instructionStartPosition = routeCoordinates.get(step.fromIndex());
 

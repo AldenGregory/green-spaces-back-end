@@ -23,17 +23,18 @@ public class WeatherService {
         this.responseConverter = responseConverter;
     }
 
-    public WeatherResultDTO requestWeather(double latitude, double longitude) {
+    public WeatherResultDTO requestWeather(double latitude, double longitude, String language) {
         // Build weather request.
         URI requestURI = UriComponentsBuilder.fromUriString("https://api.open-meteo.com/v1/forecast")
             .queryParam("latitude", latitude)
             .queryParam("longitude", longitude)
             .queryParam("temperature_unit", "fahrenheit")
             .queryParam("current", "temperature_2m,relative_humidity_2m,apparent_temperature")
+            .queryParam("timezone", "America/Phoenix")
+            .queryParam("daily", "sunrise,sunset")
+            .queryParam("forecast_days", 1)
             .build()
             .toUri();
-
-        System.out.println(requestURI.toString());
 
         // Make weather request.
         WeatherResponseDTO response = restClient.get()
@@ -42,6 +43,6 @@ public class WeatherService {
             .body(WeatherResponseDTO.class);
 
         // Convert response to WeathrResultDTO.
-        return responseConverter.fromWeatherResponseDTO(response);
+        return responseConverter.fromWeatherResponseDTO(response, language);
     }
 }

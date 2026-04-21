@@ -18,8 +18,8 @@ public class WeatherController {
     }
 
     @GetMapping("weather")
-    public WeatherResultDTO getWeather(@RequestParam double latitude, @RequestParam double longitude) {
-        return weatherService.requestWeather(latitude, longitude);
+    public WeatherResultDTO getWeather(@RequestParam double latitude, @RequestParam double longitude, @RequestParam String language) {
+        return weatherService.requestWeather(latitude, longitude, language);
     }
     
 }

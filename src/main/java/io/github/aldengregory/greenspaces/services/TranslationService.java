@@ -49,7 +49,9 @@ public class TranslationService {
         Translation result = translator.translate(
             input, 
             TranslateOption.sourceLanguage("en"),
-            TranslateOption.targetLanguage(targetLanguage)
+            TranslateOption.targetLanguage(targetLanguage),
+            // Prevents HTML encodings for symbols.
+            TranslateOption.format("text")
         );
 
         return result.getTranslatedText();
@@ -59,7 +61,9 @@ public class TranslationService {
         List<Translation> translations = translator.translate(
             inputs, 
             TranslateOption.sourceLanguage("en"),
-            TranslateOption.targetLanguage(targetLanguage)
+            TranslateOption.targetLanguage(targetLanguage),
+            // Prevents HTML encodings for symbols.
+            TranslateOption.format("text")
         );
 
         // Convert Translations to Strings.
