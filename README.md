@@ -45,7 +45,7 @@ app.translate_service_credentials=<your-google-translate-service-credentials>
 
 2. Create the `green_space_information` table using the schema below.
 
-3. Add green space data to the table below.
+3. Add green space data to the table.
 
 ### Table: green_space_information
 
