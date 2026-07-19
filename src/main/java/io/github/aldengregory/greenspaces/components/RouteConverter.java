@@ -43,6 +43,15 @@ public class RouteConverter {
      */
      public RouteResultDTO fromRouteResponseDTO(RouteResponseDTO response, String language) {
         // A simple route only has one feature for the single route requested.
+        if (response.features() == null) {
+            return new RouteResultDTO(
+                -1,
+                -1,
+                null,
+                null
+            );
+        }
+
         FeatureDTO routeFeature = response.features().get(0);
         PropertiesDTO routeProperties = routeFeature.properties();
 
